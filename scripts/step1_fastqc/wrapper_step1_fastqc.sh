@@ -1,10 +1,4 @@
 #!/bin/bash
-#$ -cwd
-#$ -V
-#$ -N step1Fastqc
-#$ -l h_data=1G,time=24:00:00
-#$ -M phung428
-#$ -m ea
 
 QSUB=/u/systems/UGE8.0.1vm/bin/lx-amd64/qsub
 
