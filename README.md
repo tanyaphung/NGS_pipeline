@@ -7,7 +7,7 @@ Credit: The pipeline and scripts were developed by Jacqueline Robinson (UCLA). I
 
 # Directory structure
 * In all the scripts, I used relative paths instead of absolute path. The reason for this is so that it can be easily modified for subsequent analysis of new samples. 
-* In the current directory, I will make 2 directories, `scripts` and `analyses`. The subdirectories under `scripts` and `analyses` are similar:
+* In the main directory, I will make 2 directories, `scripts` and `analyses`. The subdirectories under `scripts` and `analyses` are similar:
 
 ```
 mkdir scripts analyses
@@ -37,3 +37,24 @@ mkdir -- "$dir/$i";
 done;
 done;
 ```
+* In the same main directory, I also have a directory called `download`. The subdirectories within `download` is `fastq` and `refs`. I'm not including the content of the `download` directory here because of the size. 
+
+# Step 1: Check raw reads with fastqc
+* Working directory is `scripts/step1_fastqc`
+* Use the program fastqc to check the raw reads. Script used is `step1_fastqc.sh`. Usage is:
+```
+./step1_fastqc.sh individual_name
+```
+* See the wrapper script `wrapper_step1_fastqc.sh` for how to automate to multiple samples.
+* Suggested memory requested per sample: 4GB
+* Suggested time requested per sample: 5 hours
+
+# Step 2: Convert reads to unmapped bam
+* Working directory is `scripts/step2_FastqToSam`
+* Use Picard FastqToSam to convert fastq reads to unmapped bam. Script used is `step2_FastqToSam.sh`. Usage is:
+```
+./step2_FastqToSam.sh individual_name /path/to/Fastq/directory/ /path/to/outBam/directory/
+```
+* See the wrapper script `wrapper_step2_FastqToSam.sh` for how to automate to multiple samples. 
+* Suggested memory requested per sample: 8GB
+* Suggested time requested per sample: 10 hours
