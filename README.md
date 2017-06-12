@@ -85,5 +85,23 @@ done;
 ```
 * See wrapper script `wrapper_step4c_MergeBamAlignment.sh`
 
+# Step 5: Mark duplications
+* Working directory is `scripts/step5_MarkDups/`
+* Script used is `step5_MarkDups.sh`. Usage is:
+```
+./step5_MarkDups.sh individual_name /path/to/input/clean/bam/directory/ /path/to/output/step5/directory/
+```
+* See wrapper script `wrapper_step5_MarkDups.sh`
+
+# Step 6: Remove bad reads
+* Working directory is `scripts/step6_RemoveBadReads/`
+* Script used is `step6_RemoveBadReads.sh`. Usage is:
+```
+./step6_RemoveBadReads.sh individual_name /path/to/input/markdups/bam/directory/ /path/to/output/step6/directory/
+```
+* See wrapper script `wrapper_step6_RemoveBadReads.sh`
+
+
+
 
 
