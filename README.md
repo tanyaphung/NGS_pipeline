@@ -46,8 +46,6 @@ done;
 ./step1_fastqc.sh individual_name
 ```
 * See the wrapper script `wrapper_step1_fastqc.sh` for how to automate to multiple samples.
-* Suggested memory requested per sample: 4GB
-* Suggested time requested per sample: 5 hours
 
 # Step 2: Convert reads to unmapped bam
 * Working directory is `scripts/step2_FastqToSam`
@@ -56,5 +54,36 @@ done;
 ./step2_FastqToSam.sh individual_name /path/to/Fastq/directory/ /path/to/outBam/directory/
 ```
 * See the wrapper script `wrapper_step2_FastqToSam.sh` for how to automate to multiple samples. 
-* Suggested memory requested per sample: 8GB
-* Suggested time requested per sample: 10 hours
+
+
+# Step 3: Mark Illumia adapters
+* Working directory is `scripts/step3_MarkAdapters`
+* Use Picard MarkIlluminaAdapters to mark illumina adapters. Script used is `step3_MarkAdapters.sh`. Usage is:
+```
+./step3_MarkAdapters.sh individual_name /path/to/bam/directory/ /path/to/output/directory/
+```
+* See the wrapper script `wrapper_step3_MarkAdapters.sh` for how to automate to multiple samples
+
+# Step 4: Align clean bam
+* Working directory is `scripts/step4_AlignCleanBam`
+### Step 4a: Use Picard SamToFastq to convert the clean bam files to fastq files
+* Script used is `step4a_SamToFastq.sh`. Usage is:
+```
+./step4a_SamToFastq.sh individual_name /path/to/input/bam/directory/ /path/to/output/step4/directory/
+```
+* See wrapper script `wrapper_step4a_SamToFastq.sh`
+### Step 4b: Use bwa mem to do the alignment
+* Script used is `step4b_BwaMem.sh`. Usage is:
+```
+./step4b_BwaMem.sh individual_name /path/to/output/step4/directory/
+```
+* See wrapper script `wrapper_step4b_BwaMem.sh`
+### Step 4c: Use Picard MergeBamAlignment
+* Script used is `step4c_PicardMergeBamAlignment.sh`. Usage is:
+```
+./step4c_PicardMergeBamAlignment.sh individual_name /path/to/output/step4/directory/ /path/to/unmapped/bam/directory/ /path/to/output/step4/directory/
+```
+* See wrapper script `wrapper_step4c_MergeBamAlignment.sh`
+
+
+
