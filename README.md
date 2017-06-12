@@ -101,7 +101,51 @@ done;
 ```
 * See wrapper script `wrapper_step6_RemoveBadReads.sh`
 
+# Step 7: GATK Base Quality Score Recalibration (BSQR)
+* Working directory is `scripts/step7_BQSR/`
+### Step 7a: GATK Unified Genotyper
+* Script used is `step7a_BQSRGenotypeCalling_round1.sh`. Usage is:
+```
+./step7a_BQSRGenotypeCalling_round1.sh individual_name /path/to/input/bam/directory/ /path/to/output/step7/directory/ round_number
+```
+* See wrapper script `wrapper_step7a_BQSRGenotypeCalling_round1.sh`
+### Step 7b: GATK BaseRecalibrator
+* Script used is `step7b_BQSRBaseRecalibrator_round1.sh`. Usage is:
+```
+./step7b_BQSRBaseRecalibrator_round1.sh individual_name /path/to/input/bam/directory/ /path/to/output/step7/directory/ round_number
+```
+* See wrapper script `wrapper_step7b_BQSRBaseRecalibrator_round1.sh`
+### Step 7c: GATK Print Reads
+* Script used is `step7c_BQSRPrintReads_round1.sh`. Usage is:
+```
+./step7c_BQSRPrintReads_round1.sh individual_name /path/to/input/bam/directory/ /path/to/output/step7/directory/ round_number
+```
+* See wrapper script `wrapper_step7c_BQSRPrintReads_round1.sh`
 
+* Repeat step 7a, 7b, and 7c 3 times (3 rounds). 
 
+# step 8: Generate gVCF file for each individual:
+* Working directory is `scripts/step8_GATKHG/`
+* Scripts used are `step8_GATKHC_A.sh` and `step8_GATKHC_X.sh`. Usage is:
+```
+./step8_GATKHC_A.sh individual_name /path/to/bam/directory/ /path/to/output/step8/directory/
+./step8_GATKHC_X.sh individual_name /path/to/bam/directory/ /path/to/output/step8/directory/
+```
+* Note: Before using these scripts, please input the path to GATK.
+* See wrapper script `wrapper_step8_GATKHC.sh`
+
+# Step 9: Joint genotyping for all individuals
+* Working directory is `scripts/step9_GenotypeGVCFs/`
+* Scripts used are `step9_GenotypeGVCFs_A.sh` and `step9_GenotypeGVCFs_X.sh`. Usage is:
+```
+./step9_GenotypeGVCFs_A.sh /path/to/output/directory/
+./step9_GenotypeGVCFs_X.sh /path/to/output/directory/
+```
+* Note: Before using these scripts, please input the path to GATK and the individual names
+* See wrapper script `wrapper_step9_GenotypeGVCFs.sh`
+
+# Step 10: Obtain high quality sites
+* For downstream analyses, the invariant sites are needed. These scripts are meant to filter the VCFs such that only high quality sites are kept. 
+* 
 
 
