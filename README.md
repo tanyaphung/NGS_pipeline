@@ -146,6 +146,66 @@ done;
 
 # Step 10: Obtain high quality sites
 * For downstream analyses, the invariant sites are needed. These scripts are meant to filter the VCFs such that only high quality sites are kept. 
-* 
+* Working directory is `scripts/step10_obtain_high_qual_sites`
+
+### Step 1: extract DP for each site because I will use the DP information to determine whether a site is high quality or note.
+* working directory is `scripts/step10_obtain_high_qual_sites/extract_DP`
+* To extracct the DP (depth) for each site, use script `extract_DP.py`. Usage is:
+```
+python extract_DP.py -h                                                     
+usage: extract_DP.py [-h] --VCF VCF --outfile OUTFILE
+
+This script takes in a VCF files before any filtering on variants is done. The
+input VCF should contain all the sites (both variants and nonvariants). This
+script outputs the value of DP for each sites.
+
+optional arguments:
+  -h, --help         show this help message and exit
+  --VCF VCF          REQUIRED. Path to the VCF file. Should be gzipped.
+  --outfile OUTFILE  REQUIRED. Path to the output file.
+```
+* The idea is that I want to keep only the sites where the DP is within 50% or 150% of the mean AND there is no mising information for all individuals (AN is equal to 2 times the number of individuals in your particular study). So after extracting out the DP information for each site, the next step is to compute the mean across the whole genome
+
+* Use the R script `compute_DP_sum.R`. Usage is:
+```
+Rscript compute_DP_sum.R /path/to/DP/data/ /which/chromosome/ /path/to/output/file/
+```
+### Step 2: Use GATK VariantFiltration to mark the sites based on poor AN or DP
+* Working directory is `scripts/step10_obtain_high_qual_sites/obtain_high_quality_sites`
+* Use the script `obtain_high_quality_sites.sh`
+* Note: (1) Before using this script, on line 19, please put in the correct value for AN. For example, if you have 10 individuals in your samples, you should put 20. This is probably a strict cutoff. If you have a lot of individuals, it will be harder for the site to be called for every individual. Therefore, please adjust this value accordingly. (2) On line 20, please put in the correct value for DP cutoff. You should be able to obtain the mean of DP across all sites and compute the percentage cutoff that is appropriate for your particular study. 
+* See the wrapper script `wrapper_obtain_high_quality_sites.sh`
+
+### Step 3: Extract out high quality coordinates
+* Working directory is `scripts/step10_obtain_high_qual_sites/obtain_high_quality_coordinates`
+* GATK VariantFiltration annotates the variants that do not have information on DP or AN as pass. However, I do not want the variants with missing information. Therefore, I wrote a custom Python script to obtain only the coordinates (positions) where the AN and DP conditions are met and that there are no missing data.
+* Use the script `obtain_high_qual_coordinates.py`. Usage is:
+```
+python obtain_high_qual_coordinates.py -h              [ 4:54PM]
+usage: obtain_high_qual_coordinates.py [-h] --VCF VCF --outfile OUTFILE
+
+This script takes in a VCF after step10_obtain_high_qual_sites and returns a
+list of coordinates that is high quality. The reason for this extra script is
+that GATK variant filtration will annotate a site as PASS when there is no
+information in the INFO column. When there is no information in the INFO
+column, it is simply a dot.
+
+optional arguments:
+  -h, --help         show this help message and exit
+  --VCF VCF          REQUIRED. VCF file. Should be gzipped
+  --outfile OUTFILE  REQUIRED. Name of output file. End of .bed. Note that
+                     this bed file is 0-based.
+```
+
+* Because the output bed file is for each site, merging is necessary. Use the script `merge_high_qual_coordinates.sh`. Note: fill in the path to input and output files. 
+
+### Step 4: Remove the poor quality sites from VCF
+* Working directory is `scripts/step10_obtain_high_qual_sites/retain_from_VCF_high_qual_sites`
+* Use the script `retain_from_VCF_high_qual_sites.sh`. Usage is:
+```
+./retain_from_VCF_high_qual_sites.sh what_chromosome /path/to/input/VCF/file/ /path/to/output/VCF/file/ /path/to/bed/file/
+```
+
+
 
 
