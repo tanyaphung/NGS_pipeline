@@ -4,6 +4,23 @@ I describe here the pipeline I used to process whole genome sequencing reads. Th
 Credit: The pipeline and scripts were developed by Jacqueline Robinson (UCLA). I streamlined it here so that it can be easily adapted for analysis of new samples. 
 
 # Setting up a conda environment
+```
+conda create --name NGSProcess python=2.7 fastqc bwa samtools picard gatk
+```
+
+* Note that for GATK you will have to download the `GenomeAnalysisTK.jar` file and follow the instruction.
+
+* Prior to running any scripts, do:
+```
+source activate NGSProcess
+```
+
+* The environment can be deactivated with:
+```
+source deactivate
+```
+
+* If you don't know how to setting up a conda environemnt, this tutorial here would be helpful: https://github.com/thw17/BIO598_Tutorial
 
 # Directory structure
 * In all the scripts, I used relative paths instead of absolute path. The reason for this is so that it can be easily modified for subsequent analysis of new samples. 
