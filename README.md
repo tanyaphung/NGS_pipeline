@@ -124,7 +124,7 @@ done;
 
 * Repeat step 7a, 7b, and 7c 3 times (3 rounds). 
 
-# step 8: Generate gVCF file for each individual:
+# Step 8: Generate gVCF file for each individual:
 * Working directory is `scripts/step8_GATKHG/`
 * Scripts used are `step8_GATKHC_A.sh` and `step8_GATKHC_X.sh`. Usage is:
 ```
@@ -206,6 +206,12 @@ optional arguments:
 ./retain_from_VCF_high_qual_sites.sh what_chromosome /path/to/input/VCF/file/ /path/to/output/VCF/file/ /path/to/bed/file/
 ```
 
+# Step 11: Filter variants 
+
+* Because I am dealing with non-model species (non-human), I will use GATK hard filters to filter my variants
+* Working directory is `scripts/step11_filter_high_qual_variants/`.
+* Use script `step11_HardFilter.sh`
+* See wrapper script `wrapper_step11_HardFilter.sh`.
 
 
 
