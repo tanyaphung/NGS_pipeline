@@ -21,6 +21,7 @@ MEM=4G
 java -Xmx$MEM -jar ${GATK} \
         -R ${REFERENCE} \
 	-T SelectVariants \
+	-trimAlternates \
 	--excludeNonVariants \
 	-V ${inDir}/5GS_5TM_joint_${Chrom}_HighQualSites_processed.vcf.gz \
 	-o ${outDir}/${Chrom}/1_SV_5GS_5TM_joint_${Chrom}_HighQualSites_processed.vcf.gz
