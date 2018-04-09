@@ -1,4 +1,4 @@
-# NGS_pipeline
+# Pipeline for next generation sequencing analysis
 I describe here the pipeline I used to process whole genome sequencing reads. This pipeline goes from fastq reads downloaded from Sequence Read Archive (SRA) and ends with variants in VCF (Variant Calling Format) files. 
 
 Credit: The pipeline and scripts were developed by Jacqueline Robinson (UCLA). I streamlined it here so that it can be easily adapted for analysis of new samples. 
